@@ -8,6 +8,12 @@ require 'ramaze'
 # Make sure that Ramaze knows where you are
 Ramaze.options.roots = [__DIR__]
 
+require File.join(__DIR__, 'environment')
+
+Ramaze.setup :verbose => Ramaze.options.mode == :dev do
+  # Placeholder to setup what's required for dev mode
+end
+
 # Initialize controllers and models
 require __DIR__('model/init')
 require __DIR__('controller/init')
