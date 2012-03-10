@@ -1,0 +1,7 @@
+public/doc/
+model/db_connect.rb
+*.log
+.yardoc
+tmp/
+coverage/
+

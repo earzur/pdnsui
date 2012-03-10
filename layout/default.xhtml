@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>#{@title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le style -->
+    #{css('bootstrap')}
+
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+
+    #{css('bootstrap-responsive')}
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">PDNSui</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" 
+                  data-toggle="dropdown">Administration <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#notify">Notify Slaves</a></li> 
+                </ul>
+              </li>
+              <form class="navbar-search">
+                <input type="text" class="search-query" placeholder="Search">
+              </form>
+              <li><a href="#about">About</a></li>
+            </ul>
+            <p class="navbar-text pull-right">Logged in as <a href="#">westmalle</a></p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Forward Zones</li>
+              <li class="active"><a href="#">Domain1</a></li>
+              <li><a href="#">Domain2</a></li>
+              <li><a href="#">Domain3</a></li>
+              <li class="nav-header">Reverse Zones</li>
+              <li><a href="#">192.168.0.0/24</a></li>
+              <li><a href="#">10.1.2.4/30</a></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          #{@content}      
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>PDNSui powered by <a href="http://ramaze.net">Ramaze</a></p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Github ribbon -->
+    <!-- <a href="http://github.com/you"><img style="position: absolute; z-index: 2000; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a> -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    #{js('jquery')}
+    #{js('bootstrap-transition')}
+    #{js('bootstrap-alert')}
+    #{js('bootstrap-modal')}
+    #{js('bootstrap-dropdown')}
+    #{js('bootstrap-scrollspy')}
+    #{js('bootstrap-tab')}
+    #{js('bootstrap-tooltip')}
+    #{js('bootstrap-popover')}
+    #{js('bootstrap-button')}
+    #{js('bootstrap-collapse')}
+    #{js('bootstrap-carousel')}
+    #{js('bootstrap-typeahead')}
+
+  </body>
+</html>
