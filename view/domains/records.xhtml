@@ -1,5 +1,5 @@
 
-<?r if ! @domain.nil? ?>
+<?r if ! @records.empty? ?>
 
 <h1>#{@domain.name}</h1>
 
@@ -14,7 +14,7 @@
   </thead>
   <tbody>
 
-<?r @domain.records.each do |record| ?>
+<?r @records.each do |record| ?>
     <tr>
       <td>#{record.name}</td>
       <td>#{record.type}</td>
@@ -26,11 +26,14 @@
   </tbody>
 </table>
 
+#{@records.navigation}
 
   <!-- <?r #if logged_in? ?> -->
   <!-- <?r #end ?> -->
 
-</li>
+<?r else ?>
+
+<p>No records found.</p>
 
 <?r end ?>
 

@@ -1,4 +1,4 @@
 class Record < Sequel::Model
-  many_to_one :domains
+  many_to_one :domain
 end
 
