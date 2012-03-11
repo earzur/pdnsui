@@ -1,0 +1,15 @@
+<? if ! @domains.empty? ?>
+
+<?r @domains.each do |domain| ?>
+
+<li>#{Domains.a(domain.name, :edit, domain.id)}
+
+<!-- <?r #if logged_in? ?> -->
+<!-- <?r #end ?> -->
+
+</li>
+
+<?r end ?>
+
+
+

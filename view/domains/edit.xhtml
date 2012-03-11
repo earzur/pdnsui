@@ -1,0 +1,36 @@
+
+<?r if ! @domain.nil? ?>
+
+<h1>#{@domain.name}</h1>
+
+<table class="table table-striped table-condensed">
+  <thead>
+    <tr>
+      <th>Record</th>
+      <th>Type</th>
+      <th>TTL</th>
+    </tr>
+  </thead>
+  <tbody>
+
+<?r @domain.records.each do |record| ?>
+    <tr>
+      <td>#{record.name}</td>
+      <td>#{record.type}</td>
+      <td>#{record.ttl}</td>
+    </tr>
+<?r end ?>
+
+  </tbody>
+</table>
+
+
+  <!-- <?r #if logged_in? ?> -->
+  <!-- <?r #end ?> -->
+
+</li>
+
+<?r end ?>
+
+
+
