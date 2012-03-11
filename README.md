@@ -14,6 +14,6 @@ rake db:configure
 MODE=DEV rake server:thin
 ```
 
-- Point your browser to: http://localhost:7000/
+- Point your browser to: [http://localhost:7000/] (http://localhost:7000/)
 - Enjoy
 
