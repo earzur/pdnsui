@@ -5,7 +5,7 @@ require 'time'
 
 # All the bacon specifications
 PROJECT_SPECS = Dir.glob(File.expand_path('../spec/**/*.rb', __FILE__))
-PROJECT_SPECS.reject! { |e| e =~ /init\.rb/ }
+PROJECT_SPECS.reject! { |e| e =~ /helper\.rb/ }
 
 CLEAN.include %w[
   **/.*.sw?

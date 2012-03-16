@@ -74,36 +74,37 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Forward Zones</li>
-              <p><em>TODO: we should display domains here, but how ?
+							<p><em>
+								#TODO: we should display domains here, but how ?
               how can we fill the right pane with @content
-              and put somethin else here ?? </em></p>
+							and put somethin else here ?? 
+						</em></p>
               <li><a href="#">arzur.net</a></li>
               <li class="active"><a href="#">erasme.org</a></li>
               <li><a href="#">mbnet.fr</a></li>
               <li class="nav-header">Reverse Zones</li>
               <li><a href="#">192.168.0.0/24</a></li>
               <li><a href="#">10.1.2.4/30</a></li>
-              <p><em>TODO: Same here for reverse zones
-              Or may be it just sucks to have the domain list here ?</em></p>
+							<p><em>
+								#TODO: Same here for reverse zones
+								Or may be it just sucks to have the domain list here ?
+							</em></p>
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
 
-          <?r [:success, :error, :info].each do |type| ?>
-          <?r if flash[type] ?>
+				  <?r [:success, :error, :info].each do |type| ?>
+            <?r if flash[type] ?>
 
-          <div class="alert alert-block alert-#{type} fade in">
+					<div class="alert alert-block alert-#{type} fade in">
             <a class="close" data-dismiss="alert" href="#">×</a>
             <h4 class="alert-heading">#{type.capitalize}</h4>
             <p>#{flash[type].capitalize}</p>
-            <p>
-              <a class="btn btn-danger" href="#">Dismiss</a>
-            </p>
           </div>
 
-          <?r end ?>
-          <?r end ?>
+            <?r end ?>
+					<?r end ?>
 
           #{@content}
 

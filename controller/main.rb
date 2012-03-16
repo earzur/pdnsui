@@ -12,7 +12,7 @@
 class MainController < Controller
   # the index action is called automatically when no other action is specified
   def index
-    @title = 'Ramaze PowerDNS Inteface'
+    @title = 'Ramaze PowerDNS Interface'
   end
 
   # the string returned at the end of the function is used as the html body
