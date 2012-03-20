@@ -1,6 +1,9 @@
 #
 # Controller for Domains
 #
+
+# TODO: addinga domain could be nice !
+#
 class Domains < MainController
   
   def index

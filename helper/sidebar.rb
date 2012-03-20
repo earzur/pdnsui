@@ -12,8 +12,8 @@ module Ramaze
         @forward_domains = Domain.filter(~(:name.like('%in-addr.arpa'))).limit(10)
         @reverse_domains = Domain.filter(:name.like('%in-addr.arpa')).limit(10)
 
-        html = generate_header("Forward Zones", @forward_domains, current)
-        html += generate_header("Reverse Zones", @reverse_domains, current)
+        html = generate_header("Forward Zones", @forward_domains, currentname)
+        html += generate_header("Reverse Zones", @reverse_domains, currentname)
 
         sidebar = Ramaze::Gestalt.new
         sidebar.ul(:class => "nav nav-list") do

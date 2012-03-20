@@ -1,15 +1,91 @@
+<form class="well" method='POST' action="#{Domains.r(:save)}">
+
+  <div class="control-group">
+
+    <!-- Record Name -->
+    <label class="control-label" for="name">Domain name</label>
+    <div class="controls">
+      <div class="input-append">
+        <input class="span2" name="name" id="name" size="16" type="text" placeholder="whatever">
+      </div>
+      <!-- 
+      #FIXME: This doesn"t work for some reason, it should be next to the field
+      -->
+      <span class="help-inline">Type you record full name (without trailing dot)</span>
+    </div>
+
+    <!-- Domain Type -->
+    <select class="span2" name="type">
+      <option>NATIVE</option>
+      <option>MASTER</option>
+      <option>SLAVE</option>
+    </select>
+
+    <label class="control-label" for="master">Zone master</label>
+    <div class="controls">
+      <div class="input-append">
+        <input class="span2" name="master" id="master" size="16" type="text" placeholder="whatever">
+      </div>
+      <!-- 
+      #FIXME: This doesn't work for some reason, it should be next to the field
+      -->
+      <span class="help-inline">Type your zone master IP</span>
+    </div>
+
+  </div>
+
+  <button type="submit" class="btn">Add domain</button>
+
+</form>
+
+
+<table class="table table-striped table-condensed">
+  <thead>
+    <tr>
+      <?r 
+      od = request.params['order'] == 'desc' ? 'asc' : 'desc'
+      [ 'Name', 'Type' ].each do |h|
+      cls =  "btn btn-mini"
+      chevron = ""
+      sb = h.downcase
+      if h.downcase == request.params['sortby']
+      cls += " btn-info" 
+      if request.params['order'] == 'desc' 
+      chevron = "<i class=\"icon-chevron-up\"></i>"
+      else
+      chevron = "<i class=\"icon-chevron-down\"></i>"
+      end 
+      end ?>
+
+      <th><a class=\"#{cls}\" href="#{Domains.r(:index, { :sortby => sb, :order => od })}">#{chevron}#{h}</a></th>
+
+      <?r end ?>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+
 <? if ! @domains.empty? ?>
 
 <?r @domains.each do |domain| ?>
-
-<li>#{Domains.a(domain.name, :records, domain.id)}
+    <tr>
+      <td>#{Domains.a(domain.name, :records, domain.id)}</td>
+      <td>#{domain.type}</td>
+      <td>
+        <div class="btn-group">
+          <a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
+          <a class="btn btn-mini" href="#"><i class="icon-remove"></i></a>
+        </div>
+      </td>
+    </tr>
 
 <!-- <?r #if logged_in? ?> -->
 <!-- <?r #end ?> -->
 
-</li>
 
 <?r end ?>
 
-
+  </tbody>
+</table>
 
