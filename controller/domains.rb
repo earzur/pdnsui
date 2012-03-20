@@ -23,7 +23,22 @@ class Domains < MainController
       flash[:error] = 'sorry, this domain doesn\'t exist'
       redirect_referrer
     end
-    @records = paginate(@domain.records)
+
+    # Get params, filtering ou nil and turning them to symbol
+    sb = request.params['sortby'].nil? ? :name : request.params['sortby'].to_sym
+    od = request.params['order'].nil? ? :asc : request.params['order'].to_sym
+
+    # Check that the symbol obtained is valid
+    sb = :name unless [:type, :content, :ttl].include? sb
+    od = :asc unless :desc == od
+
+    if (:desc == od) then
+      Ramaze::Log.info("Sorting by #{sb} desc")
+      @records = paginate(@domain.records_dataset.order(sb).reverse.all)
+    else
+      Ramaze::Log.info("Sorting by #{sb} asc")
+      @records = paginate(@domain.records_dataset.order(sb).all)
+    end
   end
 
   private
