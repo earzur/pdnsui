@@ -6,7 +6,6 @@ class Domains < MainController
   def index
     @title = 'Domains'
     @domains = Domain
-    @sidebar = render_sidebar
   end
 
   def edit(id)
@@ -16,7 +15,6 @@ class Domains < MainController
       redirect_referrer
     end
     @title = "#{@domain.name} domain"
-    @sidebar = render_sidebar
   end
 
   def records(id)
@@ -26,7 +24,6 @@ class Domains < MainController
       redirect_referrer
     end
     @records = paginate(@domain.records)
-    @sidebar = render_sidebar
   end
 
   private
