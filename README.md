@@ -6,13 +6,15 @@ A PowerDNS UI ThatDoesntSuck™
 
 ## Installing
 
-- Create a mysql database, import your data, then
+- Create a mysql database, import your data
+
+- Configure the database in models/db_connect.rb
 
 ```bash
 bundle
-rake db:configure
 MODE=DEV rake server:thin
 ```
+(you might need to 'bundle exec' depending on your configuration)
 
 - Point your browser to: [http://localhost:7000/] (http://localhost:7000/)
 - Enjoy

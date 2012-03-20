@@ -1,14 +1,9 @@
-
-# Stolen stright from
-# https://github.com/mwlang/cashmere/blob/master/environment.rb
-# TODO: Nice setup there, many other things to grab, check it out
-
-if ENV["MODE"]
-  Ramaze.options.mode = ENV["MODE"].to_sym 
-  puts "using #{Ramaze.options.mode.inspect} mode supplied by environment"
-end
+#
+# Environment settings
+#
 
 Ramaze.middleware :spec do |mode|
+  puts "Middlewares for spec"
   mode.use Rack::Lint
   mode.use Rack::CommonLogger, Ramaze::Log
   mode.use Rack::ShowExceptions
@@ -20,6 +15,8 @@ Ramaze.middleware :spec do |mode|
 end
 
 Ramaze.middleware :dev do |mode|
+  puts "Middlewares for dev"
+
   mode.use Rack::Lint
   mode.use Rack::CommonLogger, Ramaze::Log
   mode.use Rack::ShowExceptions
@@ -42,4 +39,15 @@ Ramaze.middleware :live do |mode|
   mode.use Rack::ETag
   mode.use Rack::Head
 end
+
+# Default is 'spec'
+if ENV['RACK_ENV'].nil?
+  Ramaze::Log.info('Environment not set; using %s mode' % Ramaze.options.mode.to_s)
+elsif !["spec", "live", "dev"].include?(ENV["RACK_ENV"])
+  Ramaze::Log.info("Warning : environment '%s' unknown, using %s mode" % [ ENV['RACK_ENV'], Ramaze.options.mode.to_s ])
+else
+  Ramaze.options.mode = ENV["RACK_ENV"].to_sym 
+end
+
+Ramaze::Log.info('We start in %s mode' % Ramaze.options.mode.to_s)
 
