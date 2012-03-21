@@ -8,7 +8,8 @@ A PowerDNS UI ThatDoesntSuck™
 
 - Create a mysql database, import your data
 
-- Configure the database in models/db_connect.rb
+- Configure the database; check models/db_connect.rb.sample on how to do
+  that
 
 ```bash
 bundle
