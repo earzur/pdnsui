@@ -1,8 +1,11 @@
 desc "Runs bacon tests with code coverage"
 task :bacon do
   require 'simplecov'
+  require 'bacon'
 
-  ENV['MODE'] = 'spec'
+  ENV['RACK_ENV'] = 'spec'
+
+  Bacon.const_set :Backtraces, false unless ENV['BACON_MUTE'].nil? 
 
   SimpleCov.start do
     add_group "Models", "model/"
@@ -10,12 +13,6 @@ task :bacon do
     add_filter "spec/"
   end
 
-  # Load the existing files
-  Dir.glob('spec/*.rb').each do |spec_file|
-    unless File.basename(spec_file) == 'init.rb' and File.basename(spec_file) == 'helper.rb'
-      puts "Doing #{spec_file}"
-      require File.expand_path(spec_file)
-    end
-  end
+  require File.expand_path('spec/init.rb')
 
 end

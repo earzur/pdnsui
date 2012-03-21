@@ -94,9 +94,32 @@ CNAME records should bring a list or A, AAAA, PTR, ... (should read RFC 1031/218
           <td>#{record.content}</td>
           <td>#{record.ttl}</td>
           <td>
+
+
+            <!-- modal popup for domain delete -->
+            <div class="modal hide fade in" id="delete#{record.id}">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+                <h2>#{record.name}</h1>
+              </div> <!-- modal header -->
+
+              <div class="alert">
+                <p><strong>Warning!</strong></p>
+                This operation will delete the <strong>#{record.name}</strong> record.
+                Are you x sure you want to do this ?
+              </div>
+
+              <div class="modal-footer">
+                <a class="btn btn-primary" href="#" data-dismiss="modal">Cancel</a>
+                <a class="btn btn-danger" href="#{Records.r(:delete, record.id)}">Delete record</a>
+              </div>
+            </div>
+            <!-- end of modal -->
+
+
             <div class="btn-group">
               <a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
-              <a class="btn btn-mini" href="#"><i class="icon-remove"></i></a>
+              <a class="btn btn-mini btn-danger" href="#delete#{record.id}" data-toggle="modal"><i class="icon-remove"></i></a>
             </div>
           </td>
         </tr>

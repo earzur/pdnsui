@@ -26,6 +26,14 @@ class Domains < MainController
     end
   end
 
+  def add
+  end
+
+  def delete(id)
+    Domain[id].destroy
+    redirect_referrer
+  end
+
   def edit(id)
     @domain = Domain[id]
     if @domain.nil?
