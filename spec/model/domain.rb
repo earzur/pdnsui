@@ -1,13 +1,11 @@
-#require File.expand_path('../../spec/helper', __FILE__)
-#require 'helper'
 
-describe Domain do
+describe "A Domain" do
   behaves_like :rack_test
 
   before do
     clean = Domain[:name => 'example.com']
     clean.destroy unless clean.nil?
-    
+
     @domain = Domain.create(:name => 'example.com', :type => 'MASTER')
     @record = Record.create(:domain_id => @domain.id, :name => 'www.example.com', :type => 'A',
                      :content => '10.10.10.10', :ttl => 1234)
@@ -29,6 +27,14 @@ describe Domain do
 
   should 'have some records' do
     @domain.records.count.should.not.equal 0
+  end
+
+  should 'not accept being created twice' do
+    should.raise(Sequel::DatabaseError) {
+      Domain.create(:name => 'example.com', :type => 'MASTER')
+    }
+    #puts message 
+    #message.should =~ /entry already exist/
   end
 
   should 'have only one SOA' do

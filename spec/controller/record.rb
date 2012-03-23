@@ -1,7 +1,5 @@
-#require 'helper'
-#File.expand_path('../../spec/helper', __FILE__)
 
-describe Records do
+describe "The Records controller" do
   behaves_like :rack_test
 
   should 'show records page for a domain' do
@@ -10,11 +8,9 @@ describe Records do
     last_response.should =~ /<h1>adm<\/h1>/
   end
 
-  should 'add record' do
-#    get('/domains/create/15').status.should == 200
-#    last_response['Content-Type'].should == 'text/html'
-#    last_response.should =~ /There is no 'notemplate\.xhtml' associated with this action\./
+  should 'add record for a domain' do
     false.should.equal true
   end
+
 end
 
