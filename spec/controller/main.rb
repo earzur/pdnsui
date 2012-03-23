@@ -1,4 +1,4 @@
-#require File.expand_path('../../spec/helper', __FILE__)
+require __DIR__('../helper')
 
 describe MainController do
   behaves_like :rack_test

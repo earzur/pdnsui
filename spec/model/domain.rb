@@ -1,3 +1,4 @@
+require_relative '../helper'
 
 describe "A Domain" do
   behaves_like :rack_test

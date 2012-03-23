@@ -1,7 +1,7 @@
 #
 # Controller for Domains
 #
-
+require 'awesome_print'
 # TODO: adding a domain could be nice !
 #
 class Domains < MainController
@@ -26,7 +26,47 @@ class Domains < MainController
     end
   end
 
-  def add
+  def save
+    # This method handles both new additions & updates
+    # If domain_id is set, this is an update
+    # Otherwise, it's a new domain
+    data = request.subset(:name, :type, :master)
+    id = request.params['domain_id']
+
+    if !id.nil? and !id.empty?
+      # Update
+      domain = Domain[id]
+
+      # Let's check the id provided is valid
+      if domain.nil?
+        flash[:error] = %q{Can not update this domain (I can't find it)}
+        redirect_referrer
+      end
+
+      operation = "update"
+    else
+      # Create
+      domain = Domain.new
+      operation = "create"
+    end
+
+    begin
+      domain.update(data)
+      flash[:success] = "Domain '%s' %sd successfully" % [ data['name'], operation ]
+      redirect(Domains.r(:records, domain.id))
+
+    rescue => e
+      Ramaze::Log.error(e) if Ramaze.options.mode == :live
+
+      case e.wrapped_exception.error_number
+      when 1062
+        flash[:error] = "Domain '%s' already exists." % data['name']
+      else
+        flash[:error] = "Unable to %s domain %s" % [ operation, data['name'] ]
+        flash[:error]<< "Got error %s : %s" % [ e.wrapped_exception.error_number, e.to_s ]
+      end
+      redirect_referrer
+    end
   end
 
   def delete(id)
@@ -67,9 +107,4 @@ class Domains < MainController
     end
   end
 
-  private
-
-  def render_sidebar
-    render_partial :sidebar
-  end
 end

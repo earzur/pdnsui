@@ -1,5 +1,4 @@
-#require File.expand_path('../../spec/helper', __FILE__)
-#require 'helper'
+require_relative '../helper'
 
 describe "A Record" do
   behaves_like :rack_test

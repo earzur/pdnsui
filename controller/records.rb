@@ -1,3 +1,5 @@
+require File.expand_path('../../spec/helper', __FILE__)
+
 #
 # Controller for Domains
 #
@@ -13,35 +15,40 @@ class Records < MainController
   # otherwise, it will be a create
   # 
   def save
-    domain_id   = request.params['domain_id']
-    record_id   = request.params['record_id']
-    name        = request.params['name']
-    content     = request.params['content']
-    type        = request.params['type']
+    id   = request.params[:record_id]
+    data = request.subset(:domain_id, :name, :content, :type)
 
-    if !domain_id.nil? and !name.empty? and !type.empty? and !content.empty?
-      if record_id.nil?
-        # Handling creates
-        record = Record.new
-      else
-        # This is for updates
-        record = Record[record_id]
+    if !id.nil? and !id.empty?
+      record = Record[id]
+
+      # Let's check the id provided is valid
+      if record.nil?
+        flash[:error] = %q{Can not update this record (I can't find it)}
+        redirect_referrer
       end
+
+      operation = "updated"
     else
-      puts request.params
-      flash[:error] = 'Unable to create record entry'
-      redirect_referrer
+      # Create
+      record = Record.new
+      operation = "create"
     end
 
-    # Now we can just update since record exists
-    # It will be created in the database if this is not an update anyway
-    flash[:success] = "Record #{name} created"
-    record.update(:domain_id => domain_id,
-                  :name => name,
-                  :content => content,
-                  :type => type);
+    begin
+      record.update(data)
+      flash[:success] = "Record '%s' %sd successfully" % [data['name'], operation]
 
-    redirect_referrer
+      # We redirect on the domain records page
+      # THINK: Is that ok ?
+      Ramaze::Log.debug(data)
+      redirect(Domains.r(:records, data['domain_id']))
+
+    rescue => e
+      Ramaze::Log.error(e)
+
+      flash[:error] = "Unable to %sd this record" % operation
+      redirect_referrer
+    end
   end
 
   def edit(id)

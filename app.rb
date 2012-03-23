@@ -14,5 +14,6 @@ Ramaze.options.roots = [__DIR__]
 require __DIR__('environment')
 
 # Initialize controllers and models
+require __DIR__('helper/init')
 require __DIR__('model/init')
 require __DIR__('controller/init')
