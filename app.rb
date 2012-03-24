@@ -11,7 +11,8 @@ require "bundler/setup"
 Ramaze.options.roots = [__DIR__]
 
 # Require environnemet settings
-require __DIR__('environment')
+require __DIR__('config/environment')
+require __DIR__('config/database')
 
 # Initialize controllers and models
 require __DIR__('helper/init')

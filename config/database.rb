@@ -1,3 +1,4 @@
+require 'sequel'
 
 #
 # Database configuration
@@ -17,21 +18,13 @@ case Ramaze.options.mode
 when :spec
   DB = Sequel.mysql2(
     'powerdns', 
-    :user=>'someuser', 
-    :password=>'somepass')
+    :user=>'root', 
+    :password=>'')
 when :dev
   DB = Sequel.mysql2(
-    'powerdns', 
-    :host => 'db.dev.example.com',
-    :user=>'someuser', 
-    :password=>'somepass')
-when :live
-  DB = Sequel.mysql2(
-    'powerdns', 
-    :host = 'db.example.com',
-    :user=>'someuser', 
-    :password=>'somepass')
-when :live
+    'powerdns-dev', 
+    :user=>'root', 
+    :password=>'')
 else
   puts "No database configured for #{Ramaze.options.mode}"
   exit

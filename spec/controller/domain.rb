@@ -52,6 +52,7 @@ describe "The Domains controller" do
     get("/domains/delete/#{id}").status.should == 302
     follow_redirect!
     last_response.status.should == 200
+    last_response['Content-Type'].should == 'text/html'
     last_response.should =~ /Domain '0.example.com' deleted successfully/
    end
 
@@ -62,6 +63,7 @@ describe "The Domains controller" do
          :type => 'SLAVE',
          :master => '1.2.3.4').status.should == 302
     follow_redirect!
+    last_response.status.should == 200
     last_response['Content-Type'].should == 'text/html'
     last_response.should =~ /Domain '0.example.com' already exists/
   end
