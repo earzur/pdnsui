@@ -5,7 +5,11 @@ require 'awesome_print'
 # TODO: adding a domain could be nice !
 #
 class Domains < MainController
-  
+
+  before_all do
+    @context=:domains
+  end
+
   def index
     @title = 'Domains'
 
