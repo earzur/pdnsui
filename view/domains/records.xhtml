@@ -8,58 +8,66 @@ For best effect, it should adapt according to the record type
 For instance, LOC records should bring a map
 CNAME records should bring a list or A, AAAA, PTR, ... (should read RFC 1031/2181) -->
 
-<form class="well" method='POST' action="#{Records.r(:save)}">
+<div class="row">
+  <div class="span8">
+    <form class="well form-horizontal" method='POST' action="#{Records.r(:save)}">
+      <fieldset>
+        <legend>New record</legend>
 
-  <div class="control-group">
+        <!-- Record Name -->
+        <div class="control-group">
+          <label class="control-label" for="name">Entry name</label>
+          <div class="controls">
+            <div class="input-append">
+              <input class="span2" name="name" id="name" size="16" type="text" placeholder="whatever">
+              <span class="add-on">#{@domain.name}</span>
+            </div>
+            <span class="help-inline">Type you record name</span>
+          </div>
+        </div>
 
-    <!-- Record Name -->
-    <label class="control-label" for="name">Entry name</label>
-    <div class="controls">
-      <div class="input-append">
-        <input class="span2" name="name" id="name" size="16" type="text" placeholder="whatever">
-        <span class="add-on">#{@domain.name}</span>
-      </div>
-      <!-- 
-      #FIXME: This doesn"t work for some reason, it should be next to the field
-      -->
-      <span class="help-inline">Type you record full name (without trailing dot)</span>
-    </div>
+        <!-- Record Type -->
+        <div class="control-group">
+          <label class="control-label" for="type">Type</label>
+          <div class="controls">
+            <div class="input-append">
+              <select class="span2" name="type">
+                <option>A</option>
+                <option>CNAME</option>
+                <option>AAAA</option>
+                <option>PTR</option>
+                <option>NS</option>
+                <option>TXT</option>
+              </select>
+            </div>
+            <span class="help-inline">Select record type</span>
+          </div>
+        </div>
 
-    <!-- Record Type -->
-    <select class="span2" name="type">
-      <option>A</option>
-      <option>CNAME</option>
-      <option>AAAA</option>
-      <option>PTR</option>
-      <option>NS</option>
-      <option>TXT</option>
-    </select>
+        <!-- Record Content -->
+        <div class="control-group">
+          <label class="control-label" for="content">Content</label>
+          <div class="controls">
+            <div class="input-append">
+              <input class="span2" name="content" id="content" size="16" type="text" placeholder="whatever">
+              <span class="add-on">#{@domain.name}</span>
+            </div>
+            <span class="help-inline">Type you record content</span>
+          </div>
+          <input type="hidden" name="domain_id" value="#{@domain.id}">
+        </div>
 
-    <!-- Record Content -->
-    <label class="control-label" for="content">Content</label>
-    <div class="controls">
-      <div class="input-append">
-        <input class="span2" name="content" id="content" size="16" type="text" placeholder="whatever">
-        <span class="add-on">#{@domain.name}</span>
-      </div>
-      <!-- 
-      #FIXME: This doesn't work for some reason, it should be next to the field
-      -->
-      <span class="help-inline">Type you record full name (without trailing dot)</span>
-    </div>
+        <button type="submit" class="btn">Add record</button>
+      </fieldset>
 
-    <input type="hidden" name="domain_id" value="#{@domain.id}">
-
+    </form>
   </div>
-
-  <button type="submit" class="btn">Add record</button>
-
-</form>
+</div>
 
 <?r if ! @records.empty? ?>
 
 <div class="row">
-  <div class="span12">
+  <div class="span8">
 
     <table class="table table-striped table-condensed">
       <thead>
