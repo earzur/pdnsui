@@ -30,8 +30,8 @@ class Domains < MainController
     # This method handles both new additions & updates
     # If domain_id is set, this is an update
     # Otherwise, it's a new domain
-    data = request.subset(:name, :type, :master)
     id = request.params['domain_id']
+    data = request.subset(:name, :type, :master)
 
     if !id.nil? and !id.empty?
       # Update
@@ -70,8 +70,14 @@ class Domains < MainController
   end
 
   def delete(id)
-    Domain[id].destroy
-    redirect_referrer
+    d = Domain[id]
+    if d.nil?
+      flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % d.id
+    else
+      flash[:success] = "Domain '%s' deleted successfully" % d.name
+      d.destroy
+      redirect_referrer
+    end
   end
 
   def edit(id)
@@ -100,10 +106,10 @@ class Domains < MainController
 
     if (:desc == od) then
       Ramaze::Log.info("Sorting by #{sb} desc")
-      @records = paginate(@domain.records_dataset.order(sb).reverse.all)
+      @records = paginate(@domain.records_dataset.order(sb).reverse)
     else
       Ramaze::Log.info("Sorting by #{sb} asc")
-      @records = paginate(@domain.records_dataset.order(sb).all)
+      @records = paginate(@domain.records_dataset.order(sb))
     end
   end
 

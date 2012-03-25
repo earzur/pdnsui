@@ -6,15 +6,15 @@ module Ramaze
         # If we're not called from a Domain action, set it to an empty String so
         # Ruby doesn't complain
         currentname = ( current.nil? ? "" : current.name)
-
+        
         # Get a list of forward/reverse domains
-        # TODO: make it clever, grab zons with recent serials first
+        # TODO: make it clever, grab zones with recent serials first
+        # TODO: cache it, this stuff is a performance hog
         @forward_domains = Domain.filter(~(:name.like('%in-addr.arpa'))).limit(10)
         @reverse_domains = Domain.filter(:name.like('%in-addr.arpa')).limit(10)
 
         html = generate_header("Forward Zones", @forward_domains, currentname)
         html += generate_header("Reverse Zones", @reverse_domains, currentname)
-
         sidebar = Ramaze::Gestalt.new
         sidebar.ul(:class => "nav nav-list") do
           html

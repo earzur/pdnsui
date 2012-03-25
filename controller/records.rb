@@ -6,8 +6,23 @@ require File.expand_path('../../spec/helper', __FILE__)
 class Records < MainController
 
   def delete(id)
-    Record[id].destroy
-    redirect_referrer
+    r = Record[id]
+    if r.nil?
+      flash[:error] = "Sorry, the record ID '%s' doesn\'t exist" % id
+    else
+      # We never know, may me in the misslisecond someone deleted 
+      # the record. Probably overkill though...
+      begin
+        r.destroy
+      rescue => e
+        Ramaze::Log.error(e) if Ramaze.options.mode == :live
+        flash[:error] = "Unable to delete record '%s'" % r.name
+        flash[:error]<< "Got error %s : %s" % [ e.wrapped_exception.error_number, e.to_s ]
+      else
+        flash[:success] = "Record '%s' deleted successfully" % r.name
+      end
+      redirect_referrer
+    end
   end
 
   # This method handles updates & inserts
@@ -15,7 +30,7 @@ class Records < MainController
   # otherwise, it will be a create
   # 
   def save
-    id   = request.params[:record_id]
+    id   = request.params['record_id']
     data = request.subset(:domain_id, :name, :content, :type)
 
     if !id.nil? and !id.empty?
@@ -27,7 +42,7 @@ class Records < MainController
         redirect_referrer
       end
 
-      operation = "updated"
+      operation = "update"
     else
       # Create
       record = Record.new
@@ -46,7 +61,7 @@ class Records < MainController
     rescue => e
       Ramaze::Log.error(e)
 
-      flash[:error] = "Unable to %sd this record" % operation
+      flash[:error] = "Unable to %s this record" % operation
       redirect_referrer
     end
   end
