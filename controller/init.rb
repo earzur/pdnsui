@@ -4,7 +4,7 @@
 
 class Controller < Ramaze::Controller
   layout :default
-  helper :xhtml, :paginate, :sidebar
+  helper :xhtml, :paginate, :sidebar, :model_exception_wrapper
   engine :etanni
 
   trait :paginate => {

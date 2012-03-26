@@ -1,5 +1,6 @@
 require 'simplecov'
 
+SimpleCov.command_name 'bacon'
 SimpleCov.start
 
 # Load the existing files

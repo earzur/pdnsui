@@ -11,7 +11,7 @@ describe "A Record" do
     @record = Record.create(:domain_id => @domain.id, :name => 'www.example.com', :type => 'A',
                      :content => '10.10.10.10', :ttl => 1234)
     @soa = Record.create(:domain_id => @domain.id, :name => 'example.com', :type => 'SOA',
-                  :content => 'ns0.erasme.org postmaster.erasme.org 2006090501 7200 3600 4800 86400',
+                  :content => 'ns0.example.com postmaster.example.com 2006090501 7200 3600 4800 86400',
                   :ttl => 4321)
   end
 
@@ -28,6 +28,15 @@ describe "A Record" do
   should 'have an associated domain' do
     @record.domain_id.should.equal @domain.id
   end 
+
+  should 'type SOA should be unique for a domain' do
+    should.raise(Sequel::ValidationFailed) do
+      Record.create(:domain_id => @domain.id, :name => 'example.com', :type => 'SOA',
+                    :content => 'ns1.exaple.com postmaster.example.com 2009010203 7200 3600 4800 86400',
+                    :ttl => 4321)
+    end
+  end
+
 
 end
 

@@ -1,9 +1,6 @@
 #
 # Controller for Domains
 #
-require 'awesome_print'
-# TODO: adding a domain could be nice !
-#
 class Domains < MainController
 
   before_all do
@@ -39,64 +36,52 @@ class Domains < MainController
 
     if !id.nil? and !id.empty?
       # Update
-      domain = Domain[id]
+      @domain = Domain[id]
 
       # Let's check the id provided is valid
-      if domain.nil?
+      if @domain.nil?
         flash[:error] = %q{Can not update this domain (I can't find it)}
         redirect_referrer
       end
-
       operation = "update"
     else
       # Create
-      domain = Domain.new
+      @domain = Domain.new
       operation = "create"
     end
 
-    begin
-      domain.update(data)
-      flash[:success] = "Domain '%s' %sd successfully" % [ data['name'], operation ]
-      redirect(Domains.r(:records, domain.id))
-
-    rescue => e
-      Ramaze::Log.error(e) if Ramaze.options.mode == :live
-
-      case e.wrapped_exception.error_number
-      when 1062
-        flash[:error] = "Domain '%s' already exists." % data['name']
-      else
-        flash[:error] = "Unable to %s domain %s" % [ operation, data['name'] ]
-        flash[:error]<< "Got error %s : %s" % [ e.wrapped_exception.error_number, e.to_s ]
-      end
-      redirect_referrer
+    model_wrap(operation, data['name']) do
+      @domain.update(data)
     end
+
+    redirect Domains.r(:records, @domain.id)
   end
 
   def delete(id)
     d = Domain[id]
     if d.nil?
-      flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % d.id
+      flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % id
     else
-      flash[:success] = "Domain '%s' deleted successfully" % d.name
-      d.destroy
-      redirect_referrer
+      model_wrap("delete", d.name) do
+        d.destroy
+      end
     end
+    redirect_referrer
   end
 
-  def edit(id)
-    @domain = Domain[id]
-    if @domain.nil?
-      flash[:error] = 'sorry, this domain doesn\'t exist'
-      redirect_referrer
-    end
-    @title = "#{@domain.name} domain"
-  end
+#  def edit(id)
+#    @domain = Domain[id]
+#    if @domain.nil?
+#      flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % id
+#      redirect_referrer
+#    end
+#    @title = "#{@domain.name} domain"
+#  end
 
   def records(id)
     @domain = Domain[id]
     if @domain.nil?
-      flash[:error] = 'sorry, this domain doesn\'t exist'
+      flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % id
       redirect_referrer
     end
 

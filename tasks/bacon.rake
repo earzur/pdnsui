@@ -16,5 +16,5 @@ task :bacon do
   end
 
   require File.expand_path('spec/init.rb')
-
 end
+

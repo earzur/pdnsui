@@ -31,36 +31,29 @@ describe "A Domain" do
   end
 
   should 'not accept being created twice' do
-    should.raise(Sequel::DatabaseError) {
+    should.raise(Sequel::ValidationFailed) do
       Domain.create(:name => 'example.com', :type => 'MASTER')
-    }
-    #puts message 
-    #message.should =~ /entry already exist/
-  end
-
-  should 'have only one SOA' do
-    # check that adding another SOA fails
-    false.should.equal true
+    end
   end
 
   should 'return serial from SOA' do
-    @domain.soa(:serial).should.equal 2006090501
+    @domain.soa.serial.should.equal "2006090501"
   end
 
   should 'return refresh from SOA' do
-    @domain.soa(:serial).should.equal 7200
+    @domain.soa.refresh.should.equal "7200"
   end
 
   should 'return retry from SOA' do
-    @domain.soa(:retry).should.equal 3600
+    @domain.soa.retry.should.equal "3600"
   end
 
   should 'return expiry from SOA' do
-    @domain.soa(:expiry).should.equal 4800
+    @domain.soa.expiry.should.equal "4800"
   end
 
   should 'return minimum from SOA' do
-    @domain.soa(:minimum).should.equal 86400
+    @domain.soa.minimum.should.equal "86400"
   end
 end
 

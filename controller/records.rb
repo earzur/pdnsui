@@ -1,5 +1,3 @@
-require File.expand_path('../../spec/helper', __FILE__)
-
 #
 # Controller for Domains
 #
@@ -12,15 +10,18 @@ class Records < MainController
     else
       # We never know, may me in the misslisecond someone deleted 
       # the record. Probably overkill though...
-      begin
+      model_wrap("delete", r.name) do
         r.destroy
-      rescue => e
-        Ramaze::Log.error(e) if Ramaze.options.mode == :live
-        flash[:error] = "Unable to delete record '%s'" % r.name
-        flash[:error]<< "Got error %s : %s" % [ e.wrapped_exception.error_number, e.to_s ]
-      else
-        flash[:success] = "Record '%s' deleted successfully" % r.name
       end
+#      begin
+#        r.destroy
+#      rescue => e
+#        Ramaze::Log.error(e) if Ramaze.options.mode == :live
+#        flash[:error] = "Unable to delete record '%s'" % r.name
+#        flash[:error]<< "Got error %s : %s" % [ e.wrapped_exception.error_number, e.to_s ]
+#      else
+#        flash[:success] = "Record '%s' deleted successfully" % r.name
+#      end
       redirect_referrer
     end
   end
@@ -49,24 +50,10 @@ class Records < MainController
       operation = "create"
     end
 
-    begin
+    model_wrap(operation, data['name']) do
       record.update(data)
-      flash[:success] = "Record '%s' %sd successfully" % [data['name'], operation]
-
-      # We redirect on the domain records page
-      # THINK: Is that ok ?
-      Ramaze::Log.debug(data)
-      redirect(Domains.r(:records, data['domain_id']))
-
-    rescue => e
-      Ramaze::Log.error(e)
-
-      flash[:error] = "Unable to %s this record" % operation
-      redirect_referrer
     end
-  end
 
-  def edit(id)
-    # TODO: check for valid id
+    redirect Domains.r(:records, data['domain_id'])
   end
 end
