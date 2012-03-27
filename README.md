@@ -18,8 +18,12 @@ Installing
 mysql -p -u root < misc/powerdns.mysql
 ```
 
-* Configure the database; check config/database.db on how to do
-  that
+* Configure the database
+```bash
+cp config/database.rb.sample config/database.rb
+vim config/database.rb
+```
+
 * Start the application 
 
 ```bash
