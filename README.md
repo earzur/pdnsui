@@ -11,6 +11,15 @@ production servers yet !_
 Installing
 ----------
 
+* Clone the repository
+
+```bash
+git clone https://leucos@github.com/earzur/pdnsui.git
+cd pdnsui
+```
+
+* If you're using rvm, it should create a gemset automatically
+
 * If you're just testing around, create a powerdns MySQL database using
   the sql file given in `misc/powerdns.mysql` :
 
