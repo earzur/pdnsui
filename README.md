@@ -19,6 +19,7 @@ mysql -p -u root < misc/powerdns.mysql
 ```
 
 * Configure the database
+
 ```bash
 cp config/database.rb.sample config/database.rb
 vim config/database.rb
