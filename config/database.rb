@@ -20,11 +20,13 @@ when :spec
     'powerdns', 
     :user=>'root', 
     :password=>'')
+  DATABASE = 'powerdns'
 when :dev
   DB = Sequel.mysql2(
     'powerdns-dev', 
     :user=>'root', 
     :password=>'')
+  DATABASE = 'powerdns-dev'
 else
   puts "No database configured for #{Ramaze.options.mode}"
   exit

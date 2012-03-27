@@ -3,27 +3,18 @@
 #
 class Records < MainController
 
-  def delete(id)
+  def delete(id=nil)
     r = Record[id]
-    if r.nil?
+    if id.nil?
+      flash[:error] = "Ooops, you didn't ask me which record you wanted"
+    elsif r.nil?
       flash[:error] = "Sorry, the record ID '%s' doesn\'t exist" % id
     else
-      # We never know, may me in the misslisecond someone deleted 
-      # the record. Probably overkill though...
       model_wrap("delete", r.name) do
         r.destroy
       end
-#      begin
-#        r.destroy
-#      rescue => e
-#        Ramaze::Log.error(e) if Ramaze.options.mode == :live
-#        flash[:error] = "Unable to delete record '%s'" % r.name
-#        flash[:error]<< "Got error %s : %s" % [ e.wrapped_exception.error_number, e.to_s ]
-#      else
-#        flash[:success] = "Record '%s' deleted successfully" % r.name
-#      end
-      redirect_referrer
     end
+    redirect_referrer
   end
 
   # This method handles updates & inserts

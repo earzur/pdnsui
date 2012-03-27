@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="span8">
+<div class="row-fluid">
+  <div class="span12">
     <form class="well form-horizontal" method='POST' action="#{Domains.r(:save)}">
       <fieldset>
         <legend>New domain</legend>
@@ -50,7 +50,7 @@
 
 <?r if ! @domains.empty? ?>
 
-<div class="span8">
+<div class="span12">
 <table class="table table-striped table-condensed">
   <!-- table headers -->
   <thead>
@@ -82,9 +82,9 @@
 
     <?r @domains.each do |domain| ?>
     <tr>
-      <td>#{Domains.a(domain.name, :records, domain.id)}</td>
-      <td>#{domain.type}</td>
-      <td>
+      <td style="vertical-align:middle">#{Domains.a(domain.name, :records, domain.id)}</td>
+      <td style="vertical-align:middle">#{domain.type}</td>
+      <td style="vertical-align:middle">
 
         <!-- modal popup for domain edition -->
         <div class="modal hide fade in" id="edit#{domain.id}">
@@ -144,7 +144,6 @@
         </div>
         <!-- end of modal -->
 
-        
         <!-- row button group to spin up modal or delete domain -->
         <div class="btn-group">
           <a class="btn btn-mini" href="#edit#{domain.id}" data-toggle="modal"><i class="icon-edit"></i></a>

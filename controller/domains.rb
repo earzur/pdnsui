@@ -57,10 +57,14 @@ class Domains < MainController
     redirect Domains.r(:records, @domain.id)
   end
 
-  def delete(id)
+  def delete(id=nil)
     d = Domain[id]
-    if d.nil?
+    if id.nil?
+      flash[:error] = "Ooops, you didn't ask me which domain you wanted"
+      redirect Domains.r(:index)
+    elsif d.nil?
       flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % id
+      redirect Domains.r(:index)
     else
       model_wrap("delete", d.name) do
         d.destroy
@@ -69,21 +73,16 @@ class Domains < MainController
     redirect_referrer
   end
 
-#  def edit(id)
-#    @domain = Domain[id]
-#    if @domain.nil?
-#      flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % id
-#      redirect_referrer
-#    end
-#    @title = "#{@domain.name} domain"
-#  end
-
-  def records(id)
+  def records(id=nil)
     @domain = Domain[id]
-    if @domain.nil?
-      flash[:error] = "Sorry, the domain ID '%s' doesn\'t exist" % id
-      redirect_referrer
+    if id.nil?
+      flash[:error] = "Ooops, you didn't ask me which domain you wanted"
+      redirect Domains.r(:index)
+    elsif @domain.nil?
+      flash[:error] = "Sorry, the domain id '%s' doesn't exist" % id
+      redirect Domains.r(:index)
     end
+
 
     # Get params, filtering ou nil and turning them to symbol
     sb = request.params['sortby'].nil? ? :name : request.params['sortby'].to_sym

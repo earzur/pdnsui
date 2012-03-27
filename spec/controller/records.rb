@@ -41,12 +41,41 @@ describe "The Records controller" do
     last_response.should =~ /Entry aaaa updated successfully/
   end
 
-  should 'delete record for a domain' do
+  should 'not update a non-existent record' do
+    post('/records/save',
+         :domain_id => @domain.id,
+         :record_id => 999999,
+         :name      => 'aaaa',
+         :type      => 'CNAME',
+         :content   => 'bbbb').status.should == 302
+    last_response['Content-Type'].should == 'text/html'
+    follow_redirect!
+    last_response['Content-Type'].should == 'text/html'
+    last_response.should =~ /Can not update this record/
+  end
+
+  should 'delete record' do
     get("/records/delete/#{@record.id}").status.should == 302
     follow_redirect!
     last_response.status.should == 200
     last_response['Content-Type'].should == 'text/html'
     last_response.should =~ /Entry 0.example.com deleted successfully/
+  end
+
+  should 'not delete a non-existent record' do
+    get("/records/delete/999999").status.should == 302
+    follow_redirect!
+    last_response.status.should == 200
+    last_response['Content-Type'].should == 'text/html'
+    last_response.should =~ /Sorry, the record id '999999' doesn't exist/
+  end
+
+  should 'not delete a nil record' do
+    get("/records/delete/").status.should == 302
+    follow_redirect!
+    last_response.status.should == 200
+    last_response['Content-Type'].should == 'text/html'
+    last_response.should =~ /Ooops, you didn't ask me which record you wanted/
   end
 
   should 'not add the same record twice' do
