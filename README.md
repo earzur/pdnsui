@@ -1,9 +1,15 @@
 pdnsui
 ======
 
+[![Build
+Status](https://secure.travis-ci.org/earzur/pdnsui.png?branch=master)](http://travis-ci.org/earzue/pdnsui)
+
 GitHub: https://github.com/earzur/pdnsui/
 
 A PowerDNS UI ThatDoesntSuck™ (well, hopefully)
+
+![pdnsui]
+(https://raw.github.com/earzur/pdnsui/develop/misc/powerdns.mysql)
 
 _This softwre is *very* alpha. You definitively shouldn't use it on
 production servers yet !_
