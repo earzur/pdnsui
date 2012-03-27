@@ -16,6 +16,7 @@ Installing
 ```bash
 git clone https://leucos@github.com/earzur/pdnsui.git
 cd pdnsui
+git chekcout develop
 ```
 
 * If you're using rvm, it should create a gemset automatically
