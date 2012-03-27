@@ -25,7 +25,8 @@ git checkout develop
   the sql file given in `misc/powerdns.mysql` :
 
 ```bash
-mysql -p -u root < misc/powerdns.mysql
+mysqladmin create powerdns-test -u root -p
+mysql powerdns-test -p -u root < misc/powerdns.mysql
 ```
 
 * Configure the database
@@ -39,7 +40,7 @@ vim config/database.rb
 
 ```bash
 bundle
-MODE=DEV rake server:thin
+MODE=DEV ramaze start -s thin
 ```
 (you might need to `bundle exec` depending on your configuration)
 
