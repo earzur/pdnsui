@@ -28,10 +28,10 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-touch-icon-114x114.png">
   </head>
 
   <body>
@@ -47,13 +47,19 @@
           <a class="brand" href="#">PDNSui</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <?r if @context == :domains ?>
+              <li><a href="/">Home</a></li>
+              <li class="active"><a href="#{Domains.route}">Domains</a></li> 
+              <?r else ?>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="#{Domains.route}">Domains</a></li> 
+              <?r end ?>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" 
                   data-toggle="dropdown">Administration <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="#notify">Notify Slaves</a></li> 
+                  <li><a href="#{Utils.r(:notify_slaves)}">Notify Slaves</a></li> 
                 </ul>
               </li>
               <form class="navbar-search">
@@ -67,30 +73,41 @@
       </div>
     </div>
 
-    <div class="container-fluid">
+   <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Forward Zones</li>
-              <li class="active"><a href="#">Domain1</a></li>
-              <li><a href="#">Domain2</a></li>
-              <li><a href="#">Domain3</a></li>
-              <li class="nav-header">Reverse Zones</li>
-              <li><a href="#">192.168.0.0/24</a></li>
-              <li><a href="#">10.1.2.4/30</a></li>
-            </ul>
+            #{generate @domain}
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
-          #{@content}      
+
+				  <?r [:success, :error, :info].each do |type| ?>
+            <?r if flash[type] ?>
+
+					<div class="alert alert-block alert-#{type} fade in">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            <h4 class="alert-heading">#{type.capitalize}</h4>
+            <p>#{flash[type].capitalize}</p>
+          </div>
+
+            <?r end ?>
+					<?r end ?>
+
+          #{@content}
+
         </div><!--/span-->
       </div><!--/row-->
 
       <hr>
 
-      <footer>
-        <p>PDNSui powered by <a href="http://ramaze.net">Ramaze</a></p>
+      <footer class="centered">
+      <div style="text-align: center;">
+        PDNSui powered by <a href="http://ramaze.net">Ramaze</a> -
+        Layout and CSS from <a href="http://twitter.github.com">Twitter Bootstrap</a> -
+        Favicon from <a href="http://glyphicons.com/">glyphicons.com</a> -
+        Apple touch icon from <a href="http://findicons.com/search/leaf">Findicons</a>
+      </div>
       </footer>
 
     </div><!--/.fluid-container-->
@@ -114,6 +131,12 @@
     #{js('bootstrap-collapse')}
     #{js('bootstrap-carousel')}
     #{js('bootstrap-typeahead')}
+
+    <script>
+      $('#recordtype').change(function() {
+          alert('Handler for .change() called.');
+        });
+    </script>
 
   </body>
 </html>

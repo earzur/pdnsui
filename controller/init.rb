@@ -4,8 +4,13 @@
 
 class Controller < Ramaze::Controller
   layout :default
-  helper :xhtml
+  helper :xhtml, :paginate, :sidebar, :model_exception_wrapper
   engine :etanni
+
+  trait :paginate => {
+    :var   => 'page',
+    :limit => 20
+  }
 end
 
 # Here you can require all your other controllers. Note that if you have multiple
@@ -16,3 +21,6 @@ end
 #  end
 #
 require __DIR__('main')
+require __DIR__('domains')
+require __DIR__('records')
+require __DIR__('utils')

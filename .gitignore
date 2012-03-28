@@ -1,5 +1,5 @@
 public/doc/
-model/db_connect.rb
+config/database.rb
 *.log
 .yardoc
 tmp/
